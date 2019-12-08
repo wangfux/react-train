@@ -1,6 +1,4 @@
 import React from 'react';
-import App from './App';
-import Cards from './Cards';
 
 class List extends React.Component{
     constructor(props){
@@ -24,9 +22,9 @@ class List extends React.Component{
             let CSS="https://api.github.com/search/repositories?q=stars:%3E1+language:css&sort=stars&order=desc&type=Repositories";
             let Python="";
             const style={
-            div:{display:'flex',justifyContent:'center',fontSize:'18px'},
-            ul:{display:'flex',listStyle:'none',fontWeight: 'bold', justifyContent: 'space-between'},
-            li:{marginRight: '10px', cursor: 'pointer', border: 'none',background: 'transparent',fontWeight:'bold',fontSize: '30px', outline: 'none',color:'blue'},
+            div:{display:'flex',width:'1200px',justifyContent:'center',fontSize:'18px',margin:'0 auto'},
+            ul:{display:'flex',width:'1200px',listStyle:'none',fontWeight: 'bold',justifyContent:'center'},
+            li:{display:'flex', cursor: 'pointer', border: 'none',background: 'transparent',fontSize: '20px', outline: 'none',margin:'5px'},
             a:{textDecoration:'none'}
             }
             return(
@@ -43,4 +41,5 @@ class List extends React.Component{
             )
         }
     }
+
     export default List;

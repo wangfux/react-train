@@ -1,37 +1,43 @@
 import React from 'react';
-import List from './List';
 import axios from 'axios';
+
 class Cards extends React.Component{
     constructor(props){
     super(props)
-    this.state={repos:[]}
+    this.state={
+        repos:[],
+        loading:true,
+        API:''
+    }
 }
 async componentDidMount(){
     const res=await axios.get("https://api.github.com/search/repositories?q=stars:%3E1&sort=stars&order=desc&type=Repositories");
     console.log('res',res.data)
     this.setState({
-        repos:res.data.items
+        repos:res.data.items,
+        loading:false,
     });
 }
-
 async componentDidUpdate(){
     const res = await axios.get(this.props.API);
-    console.log('UpdateAPI',this.props.API);
+    console.log('UpdateLtUrl',this.props.API);
     if(this.props.API!=this.state.API){
         this.setState({
-            repos:res.data.items
+            repos:res.data.items,
+            API:this.props.API
         });
         console.log('UpdateRes',res.data);
     }
-};
+}
+
 render(){
     const {data}=this.props;
     const style={
-        box:{width:'23%', margin: '10px 5px', boxSizing: 'border-box'},
-        div:{background:'gray',width:'300px',height:'420px',listStyle:'none'},
-        div2:{ width:'90%', backgroundColor: '', margin: '0 auto', display: 'flex', justifyContent: 'center' },
-        modeul:{ display: 'flex',flexWrap: 'wrap', listStyle: 'none', justifyContent: 'space-around'},
-        img:{display:'flex',width:'250px',height:'200px',margin:'auto'},
+        box:{margin: '5px 2px', boxSizing: 'border-box'},
+        div:{width:'1200px',background:'gray',width:'280px',height:'400px',listStyle:'none'},
+        div2:{ display: 'flex', width:'1200px', backgroundColor: '', margin: '0 auto'},
+        modeul:{ display: 'flex',flexWrap: 'wrap', listStyle: 'none', justifyContent: 'space-between'},
+        img:{display:'flex',width:'250px',height:'200px',margin:'0 auto',justifyContent:'center'},
         li:{width:'250px',margin:'auto'}
     }
     const list=this.state.repos.map((item,key) => <div key={item.id} style={style.box}>
@@ -63,12 +69,19 @@ render(){
            </div>
     </div>
         </div>);
-
-    return<div style={style.div2}>
-    <ul style={style.modeul}>
-    {list}
-    </ul>
-    </div>
+    return(
+        <div style={style.div2}>
+            {
+                this.state.loading
+                ?<div style={{display:'flex',justifyContent:'center',margin:'0 auto',fontSize:'18px'}}>Fetch...</div>
+                :<div style={style.div2}>
+                <ul style={style.modeul}>
+                 {list}
+                 </ul>
+                </div>
+            }
+        </div>
+    )
     }
 }
 export default Cards;
